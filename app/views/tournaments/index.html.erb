@@ -1,0 +1,18 @@
+<% if !@tournaments.empty? %>
+	<% @tournaments.each do |tournament| %>
+		<h6> 
+			<%= link_to(tournament.name, tournament_path)%> 
+			<% if current_user && current_user.admin? %>
+				<%= link_to("Edit", edit_tournament_path) %>
+			<% end %> 
+		</h6>
+	<% end %>
+
+<% else %>
+	
+		<h1> Currently there are no tournaments set up. 
+			<% if current_user && current_user.admin? %>
+				You can set one up <%= link_to "here", new_tournament_path %>
+			<% end %>
+		</h1>
+<% end %>

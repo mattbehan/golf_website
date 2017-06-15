@@ -1,0 +1,48 @@
+<% if flash[:errors] %>
+  <div class="flash-errors"><%= flash[:errors] %></div>
+<% end %>
+
+<%= form_for @pool do |f| %>
+
+<div class="pool-form-group">
+  <div class="pool-form-pair">
+    <%= f.label :name %>
+    <%= f.text_field :name %> *
+  </div>
+</div> 
+
+<div class="pool-form-group">
+  <div class="pool-form-pair">
+    <%= f.label :password %>
+    <%= f.password_field :password %> *
+  </div>
+</div> 
+
+<div class="pool-form-group">
+  <div class="pool-form-pair">
+    <%= f.label :number_picks %>
+    <%= f.text_field :number_picks %> *
+  </div>
+</div> 
+
+<div class="pool-form-group">
+  <div class="pool-form-pair">
+    <%= f.label :tournament_id%>
+    <%= select("pool", "tournament_id", Tournament.where(status: "upcoming").collect {|t| [ t.name, t.id ] }) %> *
+  </div>
+</div>
+
+<div class="pool-form-group">
+  <div class="pool-form-pair">
+    <%= f.label :pool_type %>
+    <%= select("pool", "pool_type", ["PGA", "NFL", "NBA", "NHL", "MLB"]) %> *
+  </div>
+</div>
+
+
+  <div class="pool-form-indented">
+    <p><%= f.submit %></p>
+
+    <p>* - Indicates required field</p>
+  </div>
+<% end %>

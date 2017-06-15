@@ -1,0 +1,20 @@
+<% if flash[:errors] %>
+  <div class="flash-errors"><%= flash[:errors] %></div>
+<% end %>
+
+<%= link_to "Back", :back %>
+
+<%= form_tag("/pools/#{params[:id]}/join_pool", method: :post) do %>
+
+<div class="join-pool-form-group">
+  <div class="join-pool-form-pair">
+    <%= label_tag(:password, "Password for pool: ") %>
+    <%= password_field_tag(:password) %>
+  </div>
+</div>
+
+  <div class="join-pool-form-indented">
+    <p><%= submit_tag("Join") %></p>
+
+  </div>
+<% end %>

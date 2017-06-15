@@ -1,0 +1,34 @@
+<% if flash[:errors] %>
+  <div class="flash-errors"><%= flash[:errors] %></div>
+<% end %>
+
+<%= form_for @tournament do |f| %>
+
+<div class="tournament-form-group">
+  <div class="tournament-form-pair">
+    <%= f.label :name %>
+    <%= f.text_field :name %> *
+  </div>
+</div> 
+
+<div class="tournament-form-group">
+  <div class="tournament-form-pair">
+    <%= f.label :url %>
+    <%= f.text_field :name %> *
+  </div>
+</div>
+
+<div class="pool-form-group">
+  <div class="pool-form-pair">
+    <%= f.label :tournament_id%>
+    <%= select("tournament", "status", ["upcoming", "completed", "ongoing"]) %> *
+  </div>
+</div>
+
+
+  <div class="tournament-form-indented">
+    <p><%= f.submit %></p>
+
+    <p>* - Indicates required field</p>
+  </div>
+<% end %>

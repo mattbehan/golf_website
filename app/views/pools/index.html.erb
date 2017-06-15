@@ -1,0 +1,40 @@
+<% if flash[:message] %>
+  <div class="flash-message"><%= flash[:message] %></div>
+<% end %>
+
+
+<%= link_to('Create a new pool', new_pool_path) %>
+
+<br>
+
+<% if @users_pools %>
+  <br>
+  Pools you belong to:
+  <% @users_pools.each do |pool| %>
+    <br>
+    <%= pool.name %>
+  <% end %> 
+  <br>
+<% end %>
+
+<% if @owned_pools %>
+  <br>
+  Pools you own:
+  <% @owned_pools.each do |pool| %>
+    <br>
+    <%= link_to(pool.name, pool_path(pool)) %>
+    <%= link_to("Edit", edit_pool_path(pool)) %>
+  <% end %> 
+  <br>
+<% end %>
+
+<h3> All Pools </h3>
+
+<% @all_pools.each do |pool| %>
+  <p> 
+    <%= pool.name %>  
+    <% if !currently_participates_in_pool?(pool.id) %>
+      <%= link_to("Join", show_join_pool_path(pool)) %> 
+    <% end %>   
+  </p>
+<% end %> 

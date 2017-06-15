@@ -1,0 +1,19 @@
+<select id="pick-select-<%= pick.id %>" data-remote: "true">
+	<option> Choose... </option>
+	<% pool.golfers.each do |golfer| %>
+		<option value=<%= golfer.id %> id="pick-select-golfer-<%=golfer.id%>" <%if golfer.id == pick.golfer_id %> selected="selected" <% end %>  > 
+			<%= golfer.full_name %> 
+		</option>
+	<% end %>
+</select>
+
+<%= javascript_tag do %>
+$('select#pick-select-<%= pick.id %>').on('change', function(event) {
+  var selected_resource_id = $(this).val();
+  $.ajax({
+	  url: '/picks/<%=pick.id%>', 
+	  data: { golfer_id: selected_resource_id, pick_id: <%= pick.id %> }, 
+	  method: "put"
+	  });
+})
+<% end %>
