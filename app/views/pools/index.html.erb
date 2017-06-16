@@ -6,24 +6,24 @@
 <%= link_to('Create a new pool', new_pool_path) %>
 
 <br>
+<br>
 
 <% if @users_pools %>
-  <br>
-  Pools you belong to:
+  <h3> Pools you belong to </h3>
   <% @users_pools.each do |pool| %>
-    <br>
-    <%= pool.name %>
+    <p> <%= link_to(pool.name, pool_path(pool)) %> </p>
   <% end %> 
   <br>
 <% end %>
 
 <% if @owned_pools %>
-  <br>
-  Pools you own:
+  
+  <h3>Pools you own </h3>
   <% @owned_pools.each do |pool| %>
-    <br>
-    <%= link_to(pool.name, pool_path(pool)) %>
-    <%= link_to("Edit", edit_pool_path(pool)) %>
+    <p>
+      <%= link_to(pool.name, pool_path(pool)) %>
+      <%= link_to("Edit", edit_pool_path(pool)) %>
+    </p>
   <% end %> 
   <br>
 <% end %>
@@ -32,9 +32,15 @@
 
 <% @all_pools.each do |pool| %>
   <p> 
-    <%= pool.name %>  
+    <%= link_to(pool.name, pool_path(pool)) %>  
     <% if !currently_participates_in_pool?(pool.id) %>
       <%= link_to("Join", show_join_pool_path(pool)) %> 
     <% end %>   
   </p>
 <% end %> 
+
+<% if user_signed_in? and current_user.admin? %>
+  <br>
+  <h3>Administrator Tournament Manager </h3>
+  <%= link_to "Tournament Manager", tournaments_path %>
+<% end %>

@@ -1,22 +1,63 @@
 <h3> <%= @pool.name %> </h3>
-<% if owner?(@pool.creator_id) %>
-	<h5 id="view-user-<%= current_user.id %>-pool-<%= @pool.id %>-link"> <%= link_to("Edit", edit_pool_path(@pool)) %> </h5>
-<h5 id="edit-pool-link"> <%= link_to("Edit", edit_pool_path(@pool)) %> </h5>
-<h5 id="delete-pool-button"> <%= button_to("Delete", pool_path(@pool), data: { confirm: "Are you sure?" }, method: :delete) %> </h5>
-<% end %>
 
 
 <% if currently_participates_in_pool?(@pool.id) %>
 	<% if !@picks.empty?  %>
 			<%= render partial: "picks/show", collection: @picks, as: :pick, locals: {pool: @pool} %>
-	<% else %>
-		<p> You haven't made your picks yet. You can make and change your picks up until the day of the start of the tournament. </p>
-		<p> <%= link_to("Make your picks", new_pick_path) %> </p>
 	<% end %>
 <% else %>
 	<%= link_to("Join", show_join_pool_path) %>
 <% end %>
 
+<% if owner?(@pool.creator_id) %>
+<br>
+<div id = "pool-owner-actions">
+	<h5 id="edit-pool-link"> <%= link_to("Edit Pool", edit_pool_path(@pool)) %> </h5>
+	<h5 id="delete-pool-button"> <%= button_to("Delete Pool", pool_path(@pool), data: { confirm: "Are you sure?" }, method: :delete) %> </h5>
+</div>
+<% end %>
+
+
+
+
+<table>
+	<!-- Header row -->
+	<tr> 
+		<th> Entrant name </th>
+		<% @pool.number_picks.times do |time| %>
+			<th> Pick <%= time + 1%> </th>
+		<% end %>
+		<th> Total score </th>
+	</tr>
+
+	<% @pool.pool_participants.each do |participant| %>
+		<!-- entrant name and picks -->
+		<tr> 
+			<td> <%= participant.user.email %> </td>
+			<% participant.picks.each do |pick| %>
+				<td> <%if pick.golfer %> <%= pick.golfer.full_name %> <%end%></td>
+			<% end %>
+		 </tr>
+		<!-- Entrant subscores and total -->
+		<% if participant.picks_made? %>
+			<tr> <td> </td>  <% participant.picks.each do |pick| %>
+				<td> <%= pick.golfers_total_score %> </td>
+			<%end%> 
+			<td> <%= participant.total_score %> </td>
+			</tr>
+		<% end %>
+	<% end %>
+
+</table>
+
+<button id="update-tournament-button"> Update Tournament for this Pool
+</button>
+
+<% javascript_tag do %>
+	$("#update-tournament-button").on("click", function(event){
+		<%= @pool.tournament.update_current_pga_tournament_info %>
+	});
+<% end %>
 
 
 <% if @pool.pool_type == "PGA" %>
@@ -29,13 +70,4 @@
 	<%= render "pools/basketball_pool_show" %>
 <% elsif @pool.pool_type == "MLB" %>
 	<%= render "pools/baseball_pool_show" %>
-<% end %>
-
-
-<h1> owner?: <%= owner?(@pool.creator_id) %> </h1>
-<h1> owner id: <%= @pool.creator_id %> </h1>
-<h1> <% if !PoolParticipant.where(pool_id: @pool.id, user_id: 5).empty? %>
-true
-<% else %>
-false 
 <% end %>

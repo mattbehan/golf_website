@@ -23,19 +23,21 @@ Notes --
 - Need to probably find site that has data accessible for all PGA tournaments
 
 
-
-
 Task notes --
-- Have a user join a pool they are not a part of
-- First focus on being able to set up tournaments through URL
-- Once you can set up future tournaments create a pool
-- Once you can create a pool, add participants (via email)
-- Once you create the pool for a specific tournament, set up the auto update
-- Set up database for players to store id from pga_id, player profile url from pga,
-- pool_controller needs edit and destroy actions
 
 - Use secure password hashing on pool passwords
 - dont use @join_pool = Pool.new
+- Change a lot of the controller to use .includes to speed things up
+- define destroy method for tournaments
+- pool_controller needs edit and destroy actions
+- Will not deal with golfers that scratch, they will still be available as picks as well (however if golfers scratch the pool will still work, entrants will be responsible for informing themselves of golfers' status)
+- Will not deal with special circumstances like ties
 
-- have x number of picks instantiated on sign up of the pool
-- then if the picks are blank, show the select
+
+- Create a view in pools that lists all the GOLFERS scores
+- Create a view in pools that lists all the ENTRANTS scores
+- Or maybe just create one view
+- Use the whenever gem: 
+	https://stackoverflow.com/questions/12605976/schedule-rails-task-to-run-at-a-certain-time
+	to schedule the auto-update of current tournament, expire tournaments, and start new ones
+- Put on heroku

@@ -2,8 +2,6 @@
   <div class="flash-errors"><%= flash[:errors] %></div>
 <% end %>
 
-<%= link_to "Back", :back %>
-
 <%= form_tag("/pools/#{params[:id]}/join_pool", method: :post) do %>
 
 <div class="join-pool-form-group">

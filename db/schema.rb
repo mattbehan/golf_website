@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170612124904) do
+ActiveRecord::Schema.define(version: 20170615232830) do
 
   create_table "golfers", force: :cascade do |t|
     t.string   "first_name",      null: false
@@ -23,14 +23,17 @@ ActiveRecord::Schema.define(version: 20170612124904) do
   end
 
   create_table "picks", force: :cascade do |t|
-    t.integer  "pool_id",    null: false
-    t.integer  "user_id",    null: false
+    t.integer  "pool_id",             null: false
+    t.integer  "user_id",             null: false
     t.integer  "golfer_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "pool_participant_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
+  add_index "picks", ["golfer_id"], name: "index_picks_on_golfer_id"
   add_index "picks", ["pool_id"], name: "index_picks_on_pool_id"
+  add_index "picks", ["pool_participant_id"], name: "index_picks_on_pool_participant_id"
   add_index "picks", ["user_id"], name: "index_picks_on_user_id"
 
   create_table "pool_participants", force: :cascade do |t|
@@ -58,6 +61,34 @@ ActiveRecord::Schema.define(version: 20170612124904) do
   add_index "pools", ["name"], name: "index_pools_on_name"
   add_index "pools", ["tournament_id"], name: "index_pools_on_tournament_id"
 
+  create_table "rounds", force: :cascade do |t|
+    t.integer  "round_number",         null: false
+    t.integer  "tournament_golfer_id", null: false
+    t.integer  "total_strokes"
+    t.integer  "hole_1"
+    t.integer  "hole_2"
+    t.integer  "hole_3"
+    t.integer  "hole_4"
+    t.integer  "hole_5"
+    t.integer  "hole_6"
+    t.integer  "hole_7"
+    t.integer  "hole_8"
+    t.integer  "hole_9"
+    t.integer  "hole_10"
+    t.integer  "hole_11"
+    t.integer  "hole_12"
+    t.integer  "hole_13"
+    t.integer  "hole_14"
+    t.integer  "hole_15"
+    t.integer  "hole_16"
+    t.integer  "hole_17"
+    t.integer  "hole_18"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "rounds", ["tournament_golfer_id"], name: "index_rounds_on_tournament_golfer_id"
+
   create_table "tournament_golfers", force: :cascade do |t|
     t.integer  "tournament_id", null: false
     t.integer  "golfer_id",     null: false
@@ -69,11 +100,14 @@ ActiveRecord::Schema.define(version: 20170612124904) do
   add_index "tournament_golfers", ["tournament_id"], name: "index_tournament_golfers_on_tournament_id"
 
   create_table "tournaments", force: :cascade do |t|
-    t.string   "name",                            null: false
-    t.string   "url",                             null: false
-    t.string   "status",     default: "upcoming", null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.string   "name",                                     null: false
+    t.string   "url",                                      null: false
+    t.string   "status",              default: "upcoming", null: false
+    t.integer  "number_of_rounds",                         null: false
+    t.datetime "start_date_and_time",                      null: false
+    t.datetime "end_date_and_time",                        null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   add_index "tournaments", ["name"], name: "index_tournaments_on_name"

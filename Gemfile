@@ -23,6 +23,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'devise'
 
+gem 'nokogiri'
+gem 'watir'
+gem 'selenium-webdriver'
+gem 'chromedriver-helper'
+
+gem 'whenever'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

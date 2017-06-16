@@ -16,9 +16,9 @@ class PoolsController < ApplicationController
 		# display form with password on join_pool - add custom validation for password checking
 		# if the user has a valid email and password, then they are added to pool_participants and the pool.number_picks Picks are created for them, with the golfer blank, and they are redirectd to the pools pick page
 		if params[:password] == @pool.password && !currently_participates_in_pool?(@pool.id)
-			PoolParticipant.create(user_id: current_user.id, pool_id: @pool.id)
+			@pool_participant = PoolParticipant.create(user_id: current_user.id, pool_id: @pool.id)
 			@pool.number_picks.times do
-				Pick.create(pool_id: @pool.id, user_id: current_user.id)
+				Pick.create(pool_id: @pool.id, user_id: current_user.id, pool_participant_id: @pool_participant.id)
 			end
 			redirect_to pool_path(@pool)
 		else

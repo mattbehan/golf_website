@@ -1,11 +1,12 @@
+<h3> All Tournaments </h3>
 <% if !@tournaments.empty? %>
 	<% @tournaments.each do |tournament| %>
-		<h6> 
-			<%= link_to(tournament.name, tournament_path)%> 
+		<p> 
+			<%= link_to(tournament.name, tournament_path(tournament))%> 
 			<% if current_user && current_user.admin? %>
-				<%= link_to("Edit", edit_tournament_path) %>
+				<%= link_to("Edit", edit_tournament_path(tournament)) %>
 			<% end %> 
-		</h6>
+		</p>
 	<% end %>
 
 <% else %>

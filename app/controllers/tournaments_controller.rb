@@ -23,17 +23,15 @@ class TournamentsController < ApplicationController
 
 	def show
 		@tournament = Tournament.find(params[:id])
-		@tournament_participants = tournamentParticipant.where(tournament_id: params[:id])
 	end
 
 	def edit
 		@tournament = Tournament.find(params[:id])
-		must_be_owner(@tournament.creator_id)
 	end
 
 
 	def update
-		must_be_owner(@tournament.creator_id)
+		@tournament = Tournament.find(params[:id])
 		if @tournament.update_attributes(tournament_params)
 			redirect_to @tournament
 		else
@@ -43,6 +41,10 @@ class TournamentsController < ApplicationController
 	end
 
 	def destroy
+	end
+
+	def initialize_data_after_create
+		@tournament.initialize_pga_tournament_info
 	end
 
 

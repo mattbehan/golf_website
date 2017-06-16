@@ -4,7 +4,8 @@ class CreatePicks < ActiveRecord::Migration
 
     	t.belongs_to :pool, index: true, null: false
     	t.belongs_to :user, index: true, null: false
-    	t.belongs_to :golfer
+    	t.belongs_to :golfer, index: true
+    	t.belongs_to :pool_participant, index: true
 
       t.timestamps null: false
     end

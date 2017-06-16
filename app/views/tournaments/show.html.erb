@@ -1,0 +1,41 @@
+<div class="tournament-form-group">
+  <div class="tournament-form-pair">
+    <b><%= label_tag :name %> </b>
+    <%= @tournament.name %>
+  </div>
+</div> 
+
+<div class="tournament-form-group">
+  <div class="tournament-form-pair">
+    <b><%= label_tag :url %> </b>
+    <%=  @tournament.url %>
+  </div>
+</div>
+
+<div class="pool-form-group">
+  <div class="pool-form-pair">
+    <b><%= label_tag :tournament_id%> </b>
+    <%= select("tournament", "status", ["upcoming", "completed", "ongoing"]) %>
+  </div>
+</div>
+
+<div class="tournament-form-group">
+  <div class="tournament-form-pair">
+    <b><%= label_tag :number_of_rounds %> </b>
+    <%=  @tournament.number_of_rounds %>
+  </div>
+</div>
+
+<div class="tournament-form-group">
+  <div class="tournament-form-pair">
+    <b><%= label_tag :start_date_and_time %> </b>
+    <%=  @tournament.start_date_and_time %>
+  </div>
+</div>
+
+<div class="tournament-form-group">
+  <div class="tournament-form-pair">
+    <b><%= label_tag :end_date_and_time, "End date and time " %> </b>
+    <%=  @tournament.end_date_and_time %>
+  </div>
+</div>
