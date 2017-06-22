@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170615232830) do
+ActiveRecord::Schema.define(version: 20170621215337) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "golfers", force: :cascade do |t|
     t.string   "first_name",      null: false
@@ -31,10 +34,10 @@ ActiveRecord::Schema.define(version: 20170615232830) do
     t.datetime "updated_at",          null: false
   end
 
-  add_index "picks", ["golfer_id"], name: "index_picks_on_golfer_id"
-  add_index "picks", ["pool_id"], name: "index_picks_on_pool_id"
-  add_index "picks", ["pool_participant_id"], name: "index_picks_on_pool_participant_id"
-  add_index "picks", ["user_id"], name: "index_picks_on_user_id"
+  add_index "picks", ["golfer_id"], name: "index_picks_on_golfer_id", using: :btree
+  add_index "picks", ["pool_id"], name: "index_picks_on_pool_id", using: :btree
+  add_index "picks", ["pool_participant_id"], name: "index_picks_on_pool_participant_id", using: :btree
+  add_index "picks", ["user_id"], name: "index_picks_on_user_id", using: :btree
 
   create_table "pool_participants", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -43,23 +46,24 @@ ActiveRecord::Schema.define(version: 20170615232830) do
     t.integer  "pool_id",    null: false
   end
 
-  add_index "pool_participants", ["pool_id"], name: "index_pool_participants_on_pool_id"
-  add_index "pool_participants", ["user_id"], name: "index_pool_participants_on_user_id"
+  add_index "pool_participants", ["pool_id"], name: "index_pool_participants_on_pool_id", using: :btree
+  add_index "pool_participants", ["user_id"], name: "index_pool_participants_on_user_id", using: :btree
 
   create_table "pools", force: :cascade do |t|
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.string   "name",                      null: false
-    t.integer  "creator_id",                null: false
-    t.integer  "tournament_id",             null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "name",                                   null: false
+    t.integer  "creator_id",                             null: false
+    t.integer  "tournament_id",                          null: false
     t.string   "pool_type"
-    t.integer  "number_picks",  default: 7, null: false
+    t.integer  "number_picks",               default: 7, null: false
     t.string   "password"
+    t.integer  "number_golfers_for_scoring", default: 5
   end
 
-  add_index "pools", ["creator_id"], name: "index_pools_on_creator_id"
-  add_index "pools", ["name"], name: "index_pools_on_name"
-  add_index "pools", ["tournament_id"], name: "index_pools_on_tournament_id"
+  add_index "pools", ["creator_id"], name: "index_pools_on_creator_id", using: :btree
+  add_index "pools", ["name"], name: "index_pools_on_name", using: :btree
+  add_index "pools", ["tournament_id"], name: "index_pools_on_tournament_id", using: :btree
 
   create_table "rounds", force: :cascade do |t|
     t.integer  "round_number",         null: false
@@ -87,30 +91,32 @@ ActiveRecord::Schema.define(version: 20170615232830) do
     t.datetime "updated_at",           null: false
   end
 
-  add_index "rounds", ["tournament_golfer_id"], name: "index_rounds_on_tournament_golfer_id"
+  add_index "rounds", ["tournament_golfer_id"], name: "index_rounds_on_tournament_golfer_id", using: :btree
 
   create_table "tournament_golfers", force: :cascade do |t|
     t.integer  "tournament_id", null: false
     t.integer  "golfer_id",     null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "total"
   end
 
-  add_index "tournament_golfers", ["golfer_id"], name: "index_tournament_golfers_on_golfer_id"
-  add_index "tournament_golfers", ["tournament_id"], name: "index_tournament_golfers_on_tournament_id"
+  add_index "tournament_golfers", ["golfer_id"], name: "index_tournament_golfers_on_golfer_id", using: :btree
+  add_index "tournament_golfers", ["tournament_id"], name: "index_tournament_golfers_on_tournament_id", using: :btree
 
   create_table "tournaments", force: :cascade do |t|
-    t.string   "name",                                     null: false
-    t.string   "url",                                      null: false
-    t.string   "status",              default: "upcoming", null: false
-    t.integer  "number_of_rounds",                         null: false
-    t.datetime "start_date_and_time",                      null: false
-    t.datetime "end_date_and_time",                        null: false
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.string   "name",                                          null: false
+    t.string   "url",                                           null: false
+    t.string   "status",                   default: "upcoming", null: false
+    t.datetime "start_date_and_time",                           null: false
+    t.boolean  "instantiated?",            default: false
+    t.datetime "end_date_and_time",                             null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.integer  "strokes_per_round_to_par"
   end
 
-  add_index "tournaments", ["name"], name: "index_tournaments_on_name"
+  add_index "tournaments", ["name"], name: "index_tournaments_on_name", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -128,7 +134,7 @@ ActiveRecord::Schema.define(version: 20170615232830) do
     t.boolean  "admin"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

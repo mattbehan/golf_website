@@ -14,6 +14,8 @@ $('select#pick-select-<%= pick.id %>').on('change', function(event) {
 	  url: '/picks/<%=pick.id%>', 
 	  data: { golfer_id: selected_resource_id, pick_id: <%= pick.id %> }, 
 	  method: "put"
+	  }).fail(function(){
+	  	alert("You cannot enter picks unless it is at least a day before the start of a Tournament");
 	  });
 })
 <% end %>

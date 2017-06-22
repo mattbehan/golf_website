@@ -14,7 +14,13 @@ class PoolParticipant < ActiveRecord::Base
 	end
 
 	def total_score
-		total = 0
+		picks.collect { |pick|
+			picks_golfers = TournamentGolfer.where(golfer_id: pick.golfer_id, tournament_id: pick.pool.tournament_id)
+			picks_golfers.inject(0) {|sum, golfer| sum + golfer.total.to_i}
+		}.sum
+	end
+
+	def calculated_total_score
 		picks.collect { |pick|
 			picks_golfers = TournamentGolfer.where(golfer_id: pick.golfer_id, tournament_id: pick.pool.tournament_id)
 			picks_golfers.inject(0) {|sum, golfer| sum + golfer.tournament_total_score}

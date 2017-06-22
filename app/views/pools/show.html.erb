@@ -3,7 +3,7 @@
 
 <% if currently_participates_in_pool?(@pool.id) %>
 	<% if !@picks.empty?  %>
-			<%= render partial: "picks/show", collection: @picks, as: :pick, locals: {pool: @pool} %>
+			<%= render partial: "picks/show", collection: @picks.sort_by(&:id), as: :pick, locals: {pool: @pool} %>
 	<% end %>
 <% else %>
 	<%= link_to("Join", show_join_pool_path) %>
@@ -39,9 +39,9 @@
 			<% end %>
 		 </tr>
 		<!-- Entrant subscores and total -->
-		<% if participant.picks_made? %>
+		<% if participant.picks_made? && (@pool.tournament.status == "underway" || @pool.tournament.status == "completed") %>
 			<tr> <td> </td>  <% participant.picks.each do |pick| %>
-				<td> <%= pick.golfers_total_score %> </td>
+				<td> <%= pick.golfers_total %> </td>
 			<%end%> 
 			<td> <%= participant.total_score %> </td>
 			</tr>
@@ -49,15 +49,6 @@
 	<% end %>
 
 </table>
-
-<button id="update-tournament-button"> Update Tournament for this Pool
-</button>
-
-<% javascript_tag do %>
-	$("#update-tournament-button").on("click", function(event){
-		<%= @pool.tournament.update_current_pga_tournament_info %>
-	});
-<% end %>
 
 
 <% if @pool.pool_type == "PGA" %>

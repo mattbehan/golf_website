@@ -33,11 +33,17 @@ Task notes --
 - Will not deal with golfers that scratch, they will still be available as picks as well (however if golfers scratch the pool will still work, entrants will be responsible for informing themselves of golfers' status)
 - Will not deal with special circumstances like ties
 
+- Need to lock down picks. Day before - no new picks can be made
+	- On pool view - if picks have been made disable thing
+- Need to add column in pool for number of golfers that make score
+- Create scheduler to put task into background
 
-- Create a view in pools that lists all the GOLFERS scores
-- Create a view in pools that lists all the ENTRANTS scores
-- Or maybe just create one view
-- Use the whenever gem: 
-	https://stackoverflow.com/questions/12605976/schedule-rails-task-to-run-at-a-certain-time
-	to schedule the auto-update of current tournament, expire tournaments, and start new ones
-- Put on heroku
+
+<button id="update-tournament-button"> Update Tournament for this Pool
+</button>
+
+<% javascript_tag do %>
+	$("#update-tournament-button").on("click", function(event){
+		<%= @pool.tournament.update_current_pga_tournament_info %>
+	});
+<% end %>

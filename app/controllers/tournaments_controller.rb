@@ -51,7 +51,7 @@ class TournamentsController < ApplicationController
 	private
 
 	def tournament_params
-		params.require(:tournament).permit(:name, :url)
+		params.require(:tournament).permit(:name, :url, :strokes_per_round_to_par, :start_date_and_time)
 	end
 
 end

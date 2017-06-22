@@ -27,6 +27,13 @@
 
 <div class="pool-form-group">
   <div class="pool-form-pair">
+    <%= f.label :number_golfers_for_scoring %>
+    <%= f.text_field :number_golfers_for_scoring %> *
+  </div>
+</div> 
+
+<div class="pool-form-group">
+  <div class="pool-form-pair">
     <%= f.label :tournament_id%>
     <%= select("pool", "tournament_id", Tournament.where(status: "upcoming").collect {|t| [ t.name, t.id ] }) %> *
   </div>

@@ -3,7 +3,7 @@
 <% end %>
 
 
-<%= link_to('Create a new pool', new_pool_path) %>
+<% if user_signed_in? %> <%= link_to('Create a new pool', new_pool_path) %> <% end %>
 
 <br>
 <br>

@@ -36,10 +36,16 @@ class PicksController < ApplicationController
 	def update
 		@pick = Pick.find(params[:pick_id])
 		must_be_owner(@pick.user_id)
-		if(params[:golfer_id])
-			@pick.update(golfer_id: params[:golfer_id])
+		puts @pick.pool.tournament.status
+		# if @pick.pool.tournament.status != "upcoming"
+		if false
+			render :status => 403
+		else
+			if(params[:golfer_id])
+				@pick.update(golfer_id: params[:golfer_id])
+			end
+			render :nothing => true
 		end
-		render :nothing => true
 	end
 
 	def destroy

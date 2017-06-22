@@ -28,7 +28,7 @@ gem 'watir'
 gem 'selenium-webdriver'
 gem 'chromedriver-helper'
 
-gem 'whenever'
+gem 'rails_12factor', group: :production
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

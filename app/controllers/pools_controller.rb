@@ -84,7 +84,7 @@ class PoolsController < ApplicationController
 	private
 
 	def pool_params
-		params.require(:pool).permit(:name, :creator, :pool_type, :tournament_id, :number_picks).merge(creator_id: current_user.id)
+		params.require(:pool).permit(:name, :creator, :pool_type, :tournament_id, :number_picks, :number_golfers_for_scoring).merge(creator_id: current_user.id)
 	end
 
 end
