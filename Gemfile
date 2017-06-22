@@ -26,7 +26,8 @@ gem 'devise'
 gem 'nokogiri'
 gem 'watir'
 gem 'selenium-webdriver'
-gem 'chromedriver-helper'
+# gem 'chromedriver-helper'
+gem 'phantomjs'
 
 gem 'rails_12factor', group: :production
 

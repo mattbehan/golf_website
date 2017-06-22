@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
 require 'watir'
+require 'phantomjs'
 # chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"browsers","chromedriver.exe")
 # Selenium::WebDriver::Chrome.driver_path = chromedriver_path
 
@@ -15,7 +16,7 @@ class Tournament < ActiveRecord::Base
 	validates :name, :url, presence: true
 
 	def initialize_pga_tournament_info
-		browser = Watir::Browser.new :chrome
+		browser = Watir::Browser.new :phantomjs
 		browser.goto url
 		doc = Nokogiri::HTML.parse(browser.html)
 		doc.css(".player-block").each do |player_block|
@@ -44,7 +45,7 @@ class Tournament < ActiveRecord::Base
 	end
 
 	def update_current_pga_tournament_info
-		browser = Watir::Browser.new :chrome
+		browser = Watir::Browser.new :phantomjs
 		browser.goto "http://www.pgatour.com/leaderboard.html"
 		doc = Nokogiri::HTML.parse(browser.html)
 		# rows = doc.css(".leaderboard-main-content").xpath("div[starts-with(@class, 'player-row-')]")
