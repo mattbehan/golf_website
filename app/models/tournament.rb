@@ -2,8 +2,12 @@ require 'nokogiri'
 require 'open-uri'
 require 'watir'
 require 'phantomjs'
+if ENV['RACK_ENV'] == "development"
+	Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-mac"
+elsif ENV['RACK_ENV'] == "production"
+	Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-ubuntu"
+end
 # chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"browsers","chromedriver.exe")
-# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs"
 
 class Tournament < ActiveRecord::Base
 	has_many :pools
