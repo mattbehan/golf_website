@@ -37,8 +37,7 @@ class PicksController < ApplicationController
 		@pick = Pick.find(params[:pick_id])
 		must_be_owner(@pick.user_id)
 		puts @pick.pool.tournament.status
-		# if @pick.pool.tournament.status != "upcoming"
-		if false
+		if @pick.pool.tournament.status != "upcoming"
 			render :status => 403
 		else
 			if(params[:golfer_id])
