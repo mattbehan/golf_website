@@ -3,7 +3,7 @@ require 'open-uri'
 require 'watir'
 require 'phantomjs'
 # chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"browsers","chromedriver.exe")
-Selenium::WebDriver::PhantomJS.path = "bin/phantomjs"
+# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs"
 
 class Tournament < ActiveRecord::Base
 	has_many :pools
