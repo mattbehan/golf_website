@@ -1,3 +1,9 @@
+<h3> New Tournament </h3>
+<%= link_to("Create a new tournament", new_tournament_path) %>
+
+<br>
+<br>
+
 <h3> All Tournaments </h3>
 <% if !@tournaments.empty? %>
 	<% @tournaments.each do |tournament| %>
