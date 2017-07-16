@@ -28,6 +28,7 @@ gem 'watir'
 gem 'selenium-webdriver'
 # gem 'chromedriver-helper'
 gem 'phantomjs'
+gem 'materialize-sass'
 
 gem 'rails_12factor', group: :production
 
