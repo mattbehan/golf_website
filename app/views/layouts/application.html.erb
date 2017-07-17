@@ -5,26 +5,41 @@
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400' rel='stylesheet' type='text/css'>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 </head>
 <body>
 
-<div class="main-topbar" id="main-nav-collapse">
-  <ul class="user-links">
-    <% if user_signed_in? %>
-      <li><%= link_to("#{current_user.email}", edit_user_registration_path(current_user)) %></li>
-      <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
-    <% else %>
-        <li><%= link_to('Register', new_user_registration_path) %></li>
-        <li><%= link_to('Login', new_user_session_path) %></li>
-    <% end %>
-    <li> <%= link_to "Back", :back %> </li>
-    <li> <%= link_to "Home", root_path %> </li>
-  </ul>
+  <nav role="navigation" style="background-color: #26a69a">
+    <div class="nav-wrapper">
+<!--       <a href="/" class="brand-logo"><i>The Jacksonian</i></a>
+ -->      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li> <%= link_to "Home", root_path %></li>
+        <%if current_user %>
+        <ul id="dropdown1" class="dropdown-content">
+          <li> <%= link_to "Edit account information", edit_user_registration_path %> </li>
+          <li> <%= link_to("Logout", destroy_user_session_path, method: "delete")%></li>
+        </ul>
+        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">My account<i class="material-icons right">arrow_drop_down</i></a></li>
+      <% else %>
+      <li><%= link_to("Sign in", new_user_session_path)%></li>
+      <li><%= link_to("Sign up", new_user_registration_path)%></li>
+      </li>
+      <% end %>
+      </ul>
+    </div>
+  </nav>
 
-</div><!-- /.main-topbar -->
-
+<div class="container">
 
 <%= yield %>
+</div>
 
 </body>
 </html>

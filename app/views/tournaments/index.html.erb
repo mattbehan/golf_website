@@ -1,5 +1,5 @@
 <h3> New Tournament </h3>
-<%= link_to("Create a new tournament", new_tournament_path) %>
+<%= link_to("Create a new tournament", new_tournament_path, :class => "waves-effect waves-light btn") %>
 
 <br>
 <br>
@@ -10,7 +10,7 @@
 		<p> 
 			<%= link_to(tournament.name, tournament_path(tournament))%> 
 			<% if current_user && current_user.admin? %>
-				<%= link_to("Edit", edit_tournament_path(tournament)) %>
+				<%= link_to("Edit", edit_tournament_path(tournament), :class => "waves-effect waves-light btn") %>
 			<% end %> 
 		</p>
 	<% end %>
@@ -19,7 +19,7 @@
 	
 		<h1> Currently there are no tournaments set up. 
 			<% if current_user && current_user.admin? %>
-				You can set one up <%= link_to "here", new_tournament_path %>
+				You can set one up <%= link_to "here", new_tournament_path, :class => "waves-effect waves-light btn" %>
 			<% end %>
 		</h1>
 <% end %>

@@ -59,3 +59,20 @@ $primary-color: color("blue", "lighten-2") !default;
 .custom-button:hover {
   background-color: #51B8AE;
 }
+
+.background-for-sign-in {
+  background: image-url("golfcourse.jpg") no-repeat center fixed;
+  position: fixed;
+  height: 100% !important;
+  width: 100% !important;
+  margin-left: 0 ;
+  margin-right: 0;
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;  
+   -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: -1;
+}

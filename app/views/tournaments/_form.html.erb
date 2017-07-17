@@ -6,49 +6,49 @@
 
 <div class="tournament-form-group">
   <div class="tournament-form-pair">
-    <%= f.label :name %>
-    <%= f.text_field :name %> *
+    <%= f.label :name %> *
+    <%= f.text_field :name %>
   </div>
 </div> 
 
 <div class="tournament-form-group">
   <div class="tournament-form-pair">
-    <%= f.label :url %>
-    <%= f.text_field :url %> *
+    <%= f.label :url %> *
+    <%= f.text_field :url %>
   </div>
 </div>
 
 <div class="pool-form-group">
   <div class="pool-form-pair">
-    <%= f.label :tournament_id%>
-    <%= select("tournament", "status", ["upcoming", "completed", "ongoing"]) %> *
+    <%= f.label :tournament_id%> *
+    <%= select("tournament", "status", ["upcoming", "completed", "ongoing"], {include_blank: true}, :class => "browser-default") %>
   </div>
 </div>
 
 <div class="tournament-form-group">
   <div class="tournament-form-pair">
-    <%= f.label :strokes_per_round_to_par %>
-    <%= f.text_field :strokes_per_round_to_par %> *
+    <%= f.label :strokes_per_round_to_par %> *
+    <%= f.text_field :strokes_per_round_to_par %>
   </div>
 </div>
 
 <div class="tournament-form-group">
   <div class="tournament-form-pair">
-    <%= f.label :start_date_and_time %>
-    <%= f.text_field :start_date_and_time %> *
+    <%= f.label :start_date_and_time %> *
+    <%= f.text_field :start_date_and_time %>
     <br> <span style="color:grey; font-size:12px;" >(Please format as 'YYYY-MM-DD HH:MM:SS' - using military time for hours - and using UTC for time zone) </span>
   </div>
 </div>
 
 <div class="tournament-form-group">
   <div class="tournament-form-pair">
-    <%= f.label :end_date_and_time, "End date and time " %>
-    <%= f.text_field :end_date_and_time %> *
+    <%= f.label :end_date_and_time, "End date and time " %> *
+    <%= f.text_field :end_date_and_time %>
   </div>
 </div>
 
   <div class="tournament-form-indented">
-    <p><%= f.submit %></p>
+    <p><%= f.submit :class => "waves-effect waves-light btn" %></p>
 
     <p>* - Indicates required field</p>
   </div>

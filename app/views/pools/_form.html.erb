@@ -6,49 +6,49 @@
 
 <div class="pool-form-group">
   <div class="pool-form-pair">
-    <%= f.label :name %>
-    <%= f.text_field :name %> *
+    <%= f.label :name %> *
+    <%= f.text_field :name %>
   </div>
 </div> 
 
 <div class="pool-form-group">
   <div class="pool-form-pair">
-    <%= f.label :password %>
-    <%= f.password_field :password %> *
+    <%= f.label :password, "Password for pool" %> *
+    <%= f.password_field :password %>
   </div>
 </div> 
 
 <div class="pool-form-group">
   <div class="pool-form-pair">
-    <%= f.label :number_picks %>
-    <%= f.text_field :number_picks %> *
+    <%= f.label :number_picks %> *
+    <%= f.text_field :number_picks %>
   </div>
 </div> 
 
 <div class="pool-form-group">
   <div class="pool-form-pair">
-    <%= f.label :number_golfers_for_scoring %>
-    <%= f.text_field :number_golfers_for_scoring %> *
+    <%= f.label :number_golfers_for_scoring %> *
+    <%= f.text_field :number_golfers_for_scoring %>
   </div>
 </div> 
 
 <div class="pool-form-group">
   <div class="pool-form-pair">
-    <%= f.label :tournament_id%>
-    <%= select("pool", "tournament_id", Tournament.where(status: "upcoming").collect {|t| [ t.name, t.id ] }) %> *
+    <%= f.label :tournament_id%> *
+    <%= select("pool", "tournament_id", Tournament.where(status: "upcoming").collect {|t| [ t.name, t.id ] }, {include_blank: true}, :class => "browser-default") %>
   </div>
 </div>
 
 <div class="pool-form-group">
   <div class="pool-form-pair">
-    <%= f.label :pool_type %>
-    <%= select("pool", "pool_type", ["PGA", "NFL", "NBA", "NHL", "MLB"]) %> *
+    <%= f.label :pool_type %> *
+    <%= select("pool", "pool_type", ["PGA", "NFL", "NBA", "NHL", "MLB"], {include_blank: true}, :class => "browser-default") %>
   </div>
 </div>
 
 
   <div class="pool-form-indented">
-    <p><%= f.submit %></p>
+    <p><%= f.submit :class => "waves-effect waves-light btn"%></p>
 
     <p>* - Indicates required field</p>
   </div>

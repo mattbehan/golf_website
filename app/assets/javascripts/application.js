@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+//= materialize_select.js
 
 $("#join-pool-button").on("click", function(event) {
 	$("#join-pool-form").show();

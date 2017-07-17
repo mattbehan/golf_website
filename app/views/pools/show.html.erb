@@ -6,14 +6,14 @@
 			<%= render partial: "picks/show", collection: @picks.sort_by(&:id), as: :pick, locals: {pool: @pool} %>
 	<% end %>
 <% else %>
-	<%= link_to("Join", show_join_pool_path) %>
+	<%= link_to("Join", show_join_pool_path, :class => "waves-effect waves-light btn") %>
 <% end %>
 
 <% if owner?(@pool.creator_id) %>
 <br>
 <div id = "pool-owner-actions">
-	<h5 id="edit-pool-link"> <%= link_to("Edit Pool", edit_pool_path(@pool)) %> </h5>
-	<h5 id="delete-pool-button"> <%= button_to("Delete Pool", pool_path(@pool), data: { confirm: "Are you sure?" }, method: :delete) %> </h5>
+	<h5 id="edit-pool-link"> <%= link_to("Edit Pool", edit_pool_path(@pool), :class => "waves-effect waves-light btn") %> </h5>
+	<h5 id="delete-pool-button"> <%= button_to("Delete Pool", pool_path(@pool), data: { confirm: "Are you sure?" }, method: :delete, :class => "waves-effect waves-light red btn") %> </h5>
 </div>
 <% end %>
 
