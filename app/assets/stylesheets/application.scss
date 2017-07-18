@@ -61,7 +61,7 @@ $primary-color: color("blue", "lighten-2") !default;
 }
 
 .background-for-sign-in {
-  background: image-url("golfcourse.jpg") no-repeat center fixed;
+  background: image-url("course-sunset.jpg") no-repeat center fixed;
   position: fixed;
   height: 100% !important;
   width: 100% !important;
@@ -75,4 +75,16 @@ $primary-color: color("blue", "lighten-2") !default;
     -o-background-size: cover;
     background-size: cover;
     z-index: -1;
+}
+
+.right-border {
+  border-right: 1px solid black;
+}
+
+.bottom-border {
+  border-bottom: 1px solid black
+}
+
+.top-border {
+  border-top: 1px solid black;
 }

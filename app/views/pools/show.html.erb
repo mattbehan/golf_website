@@ -17,31 +17,36 @@
 </div>
 <% end %>
 
+<br>
 
-
-
-<table>
+<table border=1 id="pool-picks-table">
 	<!-- Header row -->
 	<tr> 
-		<th> Entrant name </th>
+		<th class='right-border bottom-border'> Entrant name </th>
 		<% @pool.number_picks.times do |time| %>
-			<th> Pick <%= time + 1%> </th>
+			<th class='right-border bottom-border'> Pick <%= time + 1%> </th>
 		<% end %>
-		<th> Total score </th>
+		<th class='bottom-border'> Total score </th>
 	</tr>
 
 	<% @pool.pool_participants.each do |participant| %>
 		<!-- entrant name and picks -->
 		<tr> 
-			<td> <%= participant.user.email %> </td>
-			<% participant.picks.each do |pick| %>
-				<td> <%if pick.golfer %> <%= pick.golfer.full_name %> <%end%></td>
+			<td class='right-border top-border'> <%= participant.user.abbreviated_name %> </td>
+			<!-- if tournament is underway, or if the entrant is the current user, show the picks -->
+			<% if (@pool.tournament.status == "underway" || @pool.tournament.status == "completed") || (user_signed_in? && participant.user.id == current_user.id) %>
+				<% participant.picks.each do |pick| %>
+					<td class='right-border'> <%if pick.golfer %> <%= pick.golfer.full_name %> <%end%></td>
+				<% end %>
+			<% else %>
+				 <td class='right-border top-border'> Hidden </td>		
 			<% end %>
+
 		 </tr>
 		<!-- Entrant subscores and total -->
 		<% if participant.picks_made? && (@pool.tournament.status == "underway" || @pool.tournament.status == "completed") %>
-			<tr> <td> </td>  <% participant.picks.each do |pick| %>
-				<td> <%= pick.golfers_total %> </td>
+			<tr> <td class='right-border'> </td>  <% participant.picks.each do |pick| %>
+				<td class='right-border'> <%= pick.golfers_total %> </td>
 			<%end%> 
 			<td> <%= participant.total_score %> </td>
 			</tr>
@@ -49,6 +54,8 @@
 	<% end %>
 
 </table>
+
+<br> <br>
 
 
 <% if @pool.pool_type == "PGA" %>

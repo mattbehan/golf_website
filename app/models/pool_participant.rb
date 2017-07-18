@@ -13,11 +13,12 @@ class PoolParticipant < ActiveRecord::Base
 		end
 	end
 
+	# gets total score with respect to rules
 	def total_score
-		picks.collect { |pick|
-			picks_golfers = TournamentGolfer.where(golfer_id: pick.golfer_id, tournament_id: pick.pool.tournament_id)
-			picks_golfers.inject(0) {|sum, golfer| sum + golfer.total.to_i}
-		}.sum
+		all_scores = picks.collect { |pick|
+			picks_golfers = TournamentGolfer.where(golfer_id: pick.golfer_id, tournament_id: pick.pool.tournament_id).pluck(:total)[0].to_i
+		}.sort
+		all_scores[0..(pool.number_golfers_for_scoring-1)].sum
 	end
 
 	def calculated_total_score

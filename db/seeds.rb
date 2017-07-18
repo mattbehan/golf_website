@@ -6,8 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-User.create(email: "mattbehan@gmail.com", password: 'password', admin: true)
-User.create(email: "fredericksjohnson@gmail.com", password: 'password', admin: true)
+User.create(email: "mattbehan@gmail.com", password: 'password', admin: true, first_name: "Matt", last_name: "Behan")
+User.create(email: "fredericksjohnson@gmail.com", password: 'password', admin: true, first_name: "Freddy", last_name: "Johnson")
 
 @tournament = Tournament.create(name: "seed test tournament - US Open", 
 	url: "http://www.pgatour.com/tournaments/us-open/field.html", status: "upcoming",

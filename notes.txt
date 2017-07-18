@@ -50,11 +50,3 @@ Task notes --
 
 
 
-
-
-
-
--Passwords not saving correctly for pools
--Do not show other users picks until the tournament starts
--See if you can easily change first and last name fields
--Make usre score is being calculated correctly
