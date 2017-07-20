@@ -59,10 +59,11 @@ class Tournament < ActiveRecord::Base
 			# necessary to wrap update logic in an if statment, only executes when golfer is found
 			# this saves the case when the substitute player cannot be found
 			# a more complete solution is to instantiate a new golfer and tournament golfer if this guy doesnt exist
+			puts "here"
 			if @golfer
 				@tournament_golfer = TournamentGolfer.find_by(golfer_id: @golfer.id, tournament_id: self.id)
 				round_counter = 1
-				@tournament_golfer.total = row.css(".col-total")
+				@tournament_golfer.update(total: row.css(".col-total").text.strip)
 				row.css(".col-r").each do |round_data|
 					@round = Round.find_by(round_number: round_counter, tournament_golfer_id: @tournament_golfer.id)
 					if @round
