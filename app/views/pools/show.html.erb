@@ -36,7 +36,7 @@
 			<!-- if tournament is ongoing, or if the entrant is the current user, show the picks -->
 			<% if (@pool.tournament.status == "ongoing" || @pool.tournament.status == "completed") || (user_signed_in? && participant.user.id == current_user.id) %>
 				<% participant.picks.each do |pick| %>
-					<td class='right-border'> <%if pick.golfer %> <%= pick.golfer.full_name %> <%end%></td>
+					<td class='right-border top-border'> <%if pick.golfer %> <%= pick.golfer.full_name %> <%end%></td>
 				<% end %>
 			<% else %>
 				 <td class='right-border top-border'> Hidden </td>		
