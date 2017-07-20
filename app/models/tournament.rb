@@ -56,15 +56,20 @@ class Tournament < ActiveRecord::Base
 		doc.css(".leaderboard-item").each do |row|
 			pga_player_id = row.attribute("data-pid").value
 			@golfer = Golfer.find_by(pga_player_id: pga_player_id)
-			@tournament_golfer = TournamentGolfer.find_by(golfer_id: @golfer.id, tournament_id: self.id)
-			round_counter = 1
-			@tournament_golfer.total = row.css(".col-total")
-			row.css(".col-r").each do |round_data|
-				@round = Round.find_by(round_number: round_counter, tournament_golfer_id: @tournament_golfer.id)
-				if @round
-					@round.update(total_strokes: round_data.text.strip.to_i) 
+			# necessary to wrap update logic in an if statment, only executes when golfer is found
+			# this saves the case when the substitute player cannot be found
+			# a more complete solution is to instantiate a new golfer and tournament golfer if this guy doesnt exist
+			if @golfer
+				@tournament_golfer = TournamentGolfer.find_by(golfer_id: @golfer.id, tournament_id: self.id)
+				round_counter = 1
+				@tournament_golfer.total = row.css(".col-total")
+				row.css(".col-r").each do |round_data|
+					@round = Round.find_by(round_number: round_counter, tournament_golfer_id: @tournament_golfer.id)
+					if @round
+						@round.update(total_strokes: round_data.text.strip.to_i) 
+					end
+					round_counter += 1
 				end
-				round_counter += 1
 			end
 		end
 		browser.close
