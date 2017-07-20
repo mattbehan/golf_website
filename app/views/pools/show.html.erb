@@ -33,8 +33,8 @@
 		<!-- entrant name and picks -->
 		<tr> 
 			<td class='right-border top-border'> <%= participant.user.abbreviated_name %> </td>
-			<!-- if tournament is underway, or if the entrant is the current user, show the picks -->
-			<% if (@pool.tournament.status == "underway" || @pool.tournament.status == "completed") || (user_signed_in? && participant.user.id == current_user.id) %>
+			<!-- if tournament is ongoing, or if the entrant is the current user, show the picks -->
+			<% if (@pool.tournament.status == "ongoing" || @pool.tournament.status == "completed") || (user_signed_in? && participant.user.id == current_user.id) %>
 				<% participant.picks.each do |pick| %>
 					<td class='right-border'> <%if pick.golfer %> <%= pick.golfer.full_name %> <%end%></td>
 				<% end %>
@@ -44,7 +44,7 @@
 
 		 </tr>
 		<!-- Entrant subscores and total -->
-		<% if participant.picks_made? && (@pool.tournament.status == "underway" || @pool.tournament.status == "completed") %>
+		<% if participant.picks_made? && (@pool.tournament.status == "ongoing" || @pool.tournament.status == "completed") %>
 			<tr> <td class='right-border'> </td>  <% participant.picks.each do |pick| %>
 				<td class='right-border'> <%= pick.golfers_total %> </td>
 			<%end%> 
