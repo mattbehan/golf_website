@@ -1,13 +1,16 @@
 require 'nokogiri'
 require 'open-uri'
 require 'watir'
-require 'phantomjs'
+# require 'phantomjs'
 if Rails.env.development?
-	Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-mac"
+	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-mac"
+	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-mac")
+	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
 elsif Rails.env.production?
-	Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-ubuntu"
+	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-ubuntu"
+	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-linux")
+	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
 end
-# chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"browsers","chromedriver.exe")
 
 class Tournament < ActiveRecord::Base
 	has_many :pools
@@ -19,11 +22,21 @@ class Tournament < ActiveRecord::Base
 
 	validates :name, :url, presence: true
 
+
 	def initialize_pga_tournament_info
-		browser = Watir::Browser.new :phantomjs
+			chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-linux.exe")
+		puts chromedriver_path
+		browser = Watir::Browser.new :chrome, headless: true
 		browser.goto url
 		doc = Nokogiri::HTML.parse(browser.html)
+		puts doc
+		# options = Selenium::WebDriver::Chrome::Options.new
+		# options.add_argument('--headless')
+		# driver = Selenium::WebDriver.for :chrome, options: options
+		# player_blocks = driver.find_elements(:css, ".player-block")
+		# puts player_blocks
 		doc.css(".player-block").each do |player_block|
+			puts 'in player block'
 			css_golfer_id = player_block.css("img.player-img").attribute("id").value
 			golfer_id = css_golfer_id.gsub("player-", "")
 			@golfer = Golfer.find_by(pga_player_id: golfer_id)
@@ -43,13 +56,14 @@ class Tournament < ActiveRecord::Base
 				Round.create(round_number: x+1, tournament_golfer_id: @tournament_golfer.id)
 			end
 		end
+		puts 'done with scrape'
 		self.update(instantiated?: true)
 		browser.close
 		return true
 	end
 
 	def update_current_pga_tournament_info
-		browser = Watir::Browser.new :phantomjs
+		browser = Watir::Browser.new :chrome, headless: true
 		browser.goto "http://www.pgatour.com/leaderboard.html"
 		doc = Nokogiri::HTML.parse(browser.html)
 		# rows = doc.css(".leaderboard-main-content").xpath("div[starts-with(@class, 'player-row-')]")

@@ -4,9 +4,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :picks
+  has_many :picks, dependent: :destroy
   has_many :pools
-  has_many :pool_participants
+  has_many :pool_participants, dependent: :destroy
 
   validates :first_name, :last_name, presence: true
 

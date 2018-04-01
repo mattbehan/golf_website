@@ -1,10 +1,35 @@
 <h3> <%= @pool.name %> </h3>
 
+<p> Please remember to read the tournament rules before making your picks. Reference <a href="http://www.owgr.com/ranking" target="_blank"> http://www.owgr.com/ranking </a> for golfers rankings. </p>
+
 
 <% if currently_participates_in_pool?(@pool.id) %>
 	<% if !@picks.empty?  %>
-			<%= render partial: "picks/show", collection: @picks.sort_by(&:id), as: :pick, locals: {pool: @pool} %>
+			<%= render partial: "picks/show", collection: @picks1.sort_by(&:id), as: :pick, locals: {pool: @pool} %>
 	<% end %>
+	<% if @picks2 && !@picks2.empty? %>
+	<br>
+		Entrant 2:
+			<%= render partial: "picks/show", collection: @picks2.sort_by(&:id), as: :pick, locals: {pool: @pool} %>
+	<% end %>
+	<% if @picks3 && !@picks3.empty? %>
+	<br>
+		Entrant 3:
+			<%= render partial: "picks/show", collection: @picks3.sort_by(&:id), as: :pick, locals: {pool: @pool} %>
+	<% end %>
+	<% if @picks4 && !@picks4.empty? %>
+		<br>
+		Entrant 4:
+			<%= render partial: "picks/show", collection: @picks4.sort_by(&:id), as: :pick, locals: {pool: @pool} %>
+	<% end %>
+	<% if @picks5 && !@picks5.empty? %>
+		<br>
+		Entrant 5:
+			<%= render partial: "picks/show", collection: @picks5.sort_by(&:id), as: :pick, locals: {pool: @pool} %>
+	<% else %>
+		<%= link_to "Add additional entrant", add_additional_entrant_to_pool_path, method: "post", :class => "waves-effect waves-light btn" %>
+	<% end %>
+
 <% else %>
 	<%= link_to("Join", show_join_pool_path, :class => "waves-effect waves-light btn") %>
 <% end %>
@@ -28,8 +53,8 @@
 		<% end %>
 		<th class='bottom-border'> Total score </th>
 	</tr>
-
-	<% @pool.pool_participants.each do |participant| %>
+	
+	<% @pool.sort_pool_participants_by_score.each do |participant| %>
 		<!-- entrant name and picks -->
 		<tr> 
 			<td class='right-border top-border'> <%= participant.user.abbreviated_name %> </td>

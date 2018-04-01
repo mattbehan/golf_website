@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   root "pools#index"
   get "pools/:id/join_pool", to: "pools#show_join_pool", as: "show_join_pool"
   post "pools/:id/join_pool", to: "pools#join_pool", as: "join_pool"
+  post "pools/:id/add_additional_entrant_to_pool", to: "pools#add_additional_entrant_to_pool", as: "add_additional_entrant_to_pool"
 
 
   # Example of regular route:

@@ -1,7 +1,7 @@
 <select id="pick-select-<%= pick.id %>" data-remote: "true", class="browser-default">
 
 	<option> Choose... </option>
-	<% pool.golfers.each do |golfer| %>
+	<% pool.golfers.sort_by{|golfer| golfer.first_name}.each do |golfer| %>
 		<option value=<%= golfer.id %> id="pick-select-golfer-<%=golfer.id%>" <%if golfer.id == pick.golfer_id %> selected="selected" <% end %>  > 
 			<%= golfer.full_name %> 
 		</option>

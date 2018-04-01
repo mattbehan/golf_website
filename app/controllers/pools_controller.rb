@@ -1,6 +1,6 @@
 class PoolsController < ApplicationController
 
-	before_action :must_be_logged_in, only: [:new, :create, :edit, :destroy, :show_join_pool, :join_pool]
+	before_action :must_be_logged_in, only: [:new, :create, :edit, :destroy, :show_join_pool, :join_pool, :add_additional_entrant_to_pool]
 
 
 	def show_join_pool
@@ -53,6 +53,13 @@ class PoolsController < ApplicationController
 		@pool = Pool.find(params[:id])
 		@pool_participants = PoolParticipant.where(pool_id: @pool.id)
 		@picks = user_signed_in? ? Pick.where(user_id: current_user.id, pool_id: @pool.id) : nil
+		@picks1 = @picks.slice(0..@pool.number_picks-1)
+		@picks2 = @picks.slice(@pool.number_picks..(@pool.number_picks * 2)-1)
+		@picks3 = @picks.slice((@pool.number_picks * 2)..(@pool.number_picks * 3)-1)
+		puts "====="
+		puts @picks3
+		@picks4 = @picks.slice((@pool.number_picks * 3)..(@pool.number_picks * 4)-1)
+		@picks5 = @picks.slice((@pool.number_picks * 4)..(@pool.number_picks * 5)-1)
 
 	end
 
@@ -77,6 +84,15 @@ class PoolsController < ApplicationController
 		Pool.destroy(params[:id])
 		flash[:message] = "Pool " + params[:id] + " successfully deleted"
 		redirect_to root_path
+	end
+
+	def add_additional_entrant_to_pool
+		@pool = Pool.find(params[:id])
+		@pool_participant = PoolParticipant.create(pool_id: @pool.id, user_id: current_user.id)
+		@pool.number_picks.times do
+			Pick.create(pool_id: @pool.id, user_id: current_user.id, pool_participant_id: @pool_participant.id)
+		end
+		redirect_to pool_path(@pool)
 	end
 
 
