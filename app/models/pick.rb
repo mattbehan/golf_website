@@ -9,6 +9,8 @@ class Pick < ActiveRecord::Base
 	end
 
 	def golfers_total
-		TournamentGolfer.find_by(golfer_id: self.golfer_id, tournament_id: self.pool.tournament_id).total
+		if self.golfer_id
+			TournamentGolfer.find_by(golfer_id: self.golfer_id, tournament_id: self.pool.tournament_id).total
+		end
 	end
 end
