@@ -40,6 +40,8 @@ class Tournament < ActiveRecord::Base
 # 	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
 # end
 		chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+		puts "==== chrome bin====="
+		puts chrome_bin
 		# Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {"binary" => chrome-bin})
 
 		browser = Watir::Browser.new :chrome, headless: true, binary_location: chrome_bin
