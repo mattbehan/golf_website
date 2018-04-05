@@ -84,6 +84,7 @@ class Tournament < ActiveRecord::Base
 			if @golfer
 				@tournament_golfer = TournamentGolfer.find_by(golfer_id: @golfer.id, tournament_id: self.id)
 				round_counter = 1
+				next if !@tournament_golfer
 				@tournament_golfer.update(total: row.css(".col-total").text.strip)
 				row.css(".col-r").each do |round_data|
 					@round = Round.find_by(round_number: round_counter, tournament_golfer_id: @tournament_golfer.id)
