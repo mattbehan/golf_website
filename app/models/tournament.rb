@@ -2,15 +2,16 @@ require 'nokogiri'
 require 'open-uri'
 require 'watir'
 # require 'phantomjs'
-if Rails.env.development?
-	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-mac"
-	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-mac")
-	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
-elsif Rails.env.production?
-	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-ubuntu"
-	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-linux")
-	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
-end
+# if Rails.env.development?
+# 	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-mac"
+# 	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-mac")
+# 	puts chromedriver_path
+# 	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
+# elsif Rails.env.production?
+# 	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-ubuntu"
+# 	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-linux")
+# 	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
+# end
 
 class Tournament < ActiveRecord::Base
 	has_many :pools
@@ -24,8 +25,16 @@ class Tournament < ActiveRecord::Base
 
 
 	def initialize_pga_tournament_info
-			chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-linux.exe")
-		puts chromedriver_path
+# if Rails.env.development?
+# 	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-mac"
+# 	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-mac")
+# 	puts chromedriver_path
+# 	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
+# elsif Rails.env.production?
+# 	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-ubuntu"
+# 	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-linux")
+# 	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
+# end
 		browser = Watir::Browser.new :chrome, headless: true
 		browser.goto url
 		doc = Nokogiri::HTML.parse(browser.html)
@@ -41,6 +50,7 @@ class Tournament < ActiveRecord::Base
 			golfer_id = css_golfer_id.gsub("player-", "")
 			@golfer = Golfer.find_by(pga_player_id: golfer_id)
 			@tournament_golfer = nil
+			puts @golfer
 			if !@golfer
 				name_text = player_block.css(".player-name").text
 				matches = name_text.match(/(\w+),\s*(\w+)/)
@@ -52,11 +62,11 @@ class Tournament < ActiveRecord::Base
 			elsif TournamentGolfer.where(golfer_id: @golfer.id, tournament_id: self.id).empty?
 				@tournament_golfer = TournamentGolfer.create(golfer_id: @golfer.id, tournament_id: self.id)
 			end
+			next if !@tournament_golfer
 			4.times do |x|
 				Round.create(round_number: x+1, tournament_golfer_id: @tournament_golfer.id)
 			end
 		end
-		puts 'done with scrape'
 		self.update(instantiated?: true)
 		browser.close
 		return true
@@ -73,7 +83,6 @@ class Tournament < ActiveRecord::Base
 			# necessary to wrap update logic in an if statment, only executes when golfer is found
 			# this saves the case when the substitute player cannot be found
 			# a more complete solution is to instantiate a new golfer and tournament golfer if this guy doesnt exist
-			puts "here"
 			if @golfer
 				@tournament_golfer = TournamentGolfer.find_by(golfer_id: @golfer.id, tournament_id: self.id)
 				round_counter = 1
