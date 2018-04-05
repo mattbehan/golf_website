@@ -2,17 +2,20 @@ require 'nokogiri'
 require 'open-uri'
 require 'watir'
 # require 'phantomjs'
-if Rails.env.development?
-	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-mac"
-	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-mac")
-	puts chromedriver_path
-	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
-elsif Rails.env.production?
-	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-ubuntu"
-	# chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-linux")
-	# Selenium::WebDriver::Chrome.driver_path = chromedriver_path
+# if Rails.env.development?
+# 	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-mac"
+# 	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-mac")
+# 	puts chromedriver_path
+# 	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
+# elsif Rails.env.production?
+# 	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-ubuntu"
+# 	# chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-linux")
+# 	# Selenium::WebDriver::Chrome.driver_path = chromedriver_path
+# end
 
-
+if Rails.env.production?
+	chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+	Selenium::WebDriver::Chrome.path = chrome_bin
 end
 
 # chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
@@ -31,27 +34,9 @@ class Tournament < ActiveRecord::Base
 
 
 	def initialize_pga_tournament_info
-# if Rails.env.development?
-# 	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-mac"
-# 	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-mac")
-# 	puts chromedriver_path
-# 	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
-# elsif Rails.env.production?
-# 	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-ubuntu"
-# 	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-linux")
-# 	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
-# end
-		chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-		puts "==== chrome bin====="
-		puts chrome_bin
-		# Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {"binary" => chrome-bin})
-
-		Selenium::WebDriver::Chrome.path = chrome_bin
-
 		browser = Watir::Browser.new :chrome, headless: true
 		browser.goto url
 		doc = Nokogiri::HTML.parse(browser.html)
-		puts doc
 		# options = Selenium::WebDriver::Chrome::Options.new
 		# options.add_argument('--headless')
 		# driver = Selenium::WebDriver.for :chrome, options: options
