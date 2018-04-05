@@ -2,20 +2,20 @@ require 'nokogiri'
 require 'open-uri'
 require 'watir'
 # require 'phantomjs'
-if Rails.env.development?
-	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-mac"
-	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-mac")
-	puts chromedriver_path
-	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
-elsif Rails.env.production?
-	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-ubuntu"
-	# chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-linux")
-	# Selenium::WebDriver::Chrome.driver_path = chromedriver_path
-end
+# if Rails.env.development?
+# 	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-mac"
+# 	chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-mac")
+# 	puts chromedriver_path
+# 	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
+# elsif Rails.env.production?
+# 	# Selenium::WebDriver::PhantomJS.path = "bin/phantomjs-ubuntu"
+# 	# chromedriver_path = File.join(File.absolute_path('../..', File.dirname(__FILE__)),"bin","chromedriver-linux")
+# 	# Selenium::WebDriver::Chrome.driver_path = chromedriver_path
+# end
 
-chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+# chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
 
-chrome_opts = chrome_bin ? { "chromeOptions" => { "binary" => chrome_bin } } : {}
+# chrome_opts = chrome_bin ? { "chromeOptions" => { "binary" => chrome_bin } } : {}
 
 class Tournament < ActiveRecord::Base
 	has_many :pools
@@ -40,9 +40,9 @@ class Tournament < ActiveRecord::Base
 # 	Selenium::WebDriver::Chrome.driver_path = chromedriver_path
 # end
 		chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-		Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {"binary" => chrome-bin})
+		# Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {"binary" => chrome-bin})
 
-		browser = Watir::Browser.new :chrome, headless: true
+		browser = Watir::Browser.new :chrome, headless: true, binary_location: chrome_bin
 		browser.goto url
 		doc = Nokogiri::HTML.parse(browser.html)
 		puts doc
