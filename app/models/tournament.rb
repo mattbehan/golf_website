@@ -44,7 +44,7 @@ class Tournament < ActiveRecord::Base
 		puts chrome_bin
 		# Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {"binary" => chrome-bin})
 
-		browser = Watir::Browser.new :chrome, headless: true, binary_location: chrome_bin
+		browser = Watir::Browser.new :chrome, headless: true, desired_capabilities: chrome_bin
 		browser.goto url
 		doc = Nokogiri::HTML.parse(browser.html)
 		puts doc
