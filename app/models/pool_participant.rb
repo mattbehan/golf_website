@@ -17,7 +17,7 @@ class PoolParticipant < ActiveRecord::Base
 	def total_score
 		all_scores = picks.collect { |pick|
 			picks_golfers = TournamentGolfer.where(golfer_id: pick.golfer_id, tournament_id: pick.pool.tournament_id).pluck(:total)[0]
-		} - [nil]
+		} - [nil] - ["CUT"]
 		if all_scores.count < 5
 			return "DQ"
 		else 
