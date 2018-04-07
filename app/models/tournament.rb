@@ -86,6 +86,9 @@ class Tournament < ActiveRecord::Base
 				round_counter = 1
 				next if !@tournament_golfer
 				@tournament_golfer.update(total: row.css(".col-total").text.strip)
+				if row.css("td:nth-child(2)").text.strip == "CUT"
+					@tournament_golfer.update(total: "CUT")
+				end
 				row.css(".col-r").each do |round_data|
 					@round = Round.find_by(round_number: round_counter, tournament_golfer_id: @tournament_golfer.id)
 					if @round
@@ -97,7 +100,6 @@ class Tournament < ActiveRecord::Base
 		end
 		browser.close
 		return true
-
 	end
 
 	def self.instantiate_tournaments

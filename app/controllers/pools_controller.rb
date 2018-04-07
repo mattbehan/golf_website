@@ -52,19 +52,14 @@ class PoolsController < ApplicationController
 	def show
 		@pool = Pool.find(params[:id])
 		@pool_participants = PoolParticipant.where(pool_id: @pool.id)
-		puts "=========="
 		@picks = user_signed_in? ? Pick.where(user_id: current_user.id, pool_id: @pool.id) : nil
-		@picks1 = @picks.slice(0..@pool.number_picks-1)
-		puts @picks1
-		@picks2 = @picks.slice(@pool.number_picks..(@pool.number_picks * 2)-1)
-		puts @picks2
-		@picks3 = @picks.slice((@pool.number_picks * 2)..(@pool.number_picks * 3)-1)
-		puts "====="
-		puts @picks3
-		@picks4 = @picks.slice((@pool.number_picks * 3)..(@pool.number_picks * 4)-1)
-		puts @picks4
-		@picks5 = @picks.slice((@pool.number_picks * 4)..(@pool.number_picks * 5)-1)
-		puts @picks5
+		if @picks
+			@picks1 = @picks.slice(0..@pool.number_picks-1)
+			@picks2 = @picks.slice(@pool.number_picks..(@pool.number_picks * 2)-1)
+			@picks3 = @picks.slice((@pool.number_picks * 2)..(@pool.number_picks * 3)-1)
+			@picks4 = @picks.slice((@pool.number_picks * 3)..(@pool.number_picks * 4)-1)
+			@picks5 = @picks.slice((@pool.number_picks * 4)..(@pool.number_picks * 5)-1)
+		end
 
 	end
 
