@@ -26,7 +26,7 @@ gem 'devise'
 
 gem 'nokogiri', '~> 1.8.2'
 gem 'watir'
-gem 'selenium-webdriver'
+gem 'selenium-webdriver', '~> 3.11.0'
 gem 'chromedriver-helper'
 gem 'phantomjs'
 gem 'materialize-sass'
