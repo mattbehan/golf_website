@@ -1,7 +1,7 @@
 class PoolParticipant < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :pool
-	has_many :picks
+	has_many :picks, dependent: :destroy
 
 	validates :user_id, :pool_id, presence: true
 

@@ -23,8 +23,8 @@ end
 # chrome_opts = chrome_bin ? { "chromeOptions" => { "binary" => chrome_bin } } : {}
 
 class Tournament < ActiveRecord::Base
-	has_many :pools
-	has_many :tournament_golfers
+	has_many :pools, dependent: :destroy
+	has_many :tournament_golfers, dependent: :destroy
 	has_many :golfers, through: :tournament_golfers
 	has_many :rounds, through: :tournament_golfers
 
