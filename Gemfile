@@ -25,7 +25,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 
 gem 'nokogiri', '~> 1.8.2'
-gem 'watir'
+gem 'watir', '~> 6.11.0'
 gem 'selenium-webdriver', '~> 3.11.0'
 gem 'chromedriver-helper'
 gem 'phantomjs'
@@ -45,7 +45,6 @@ gem 'rails_12factor', group: :production
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
 end
 
 group :development do
